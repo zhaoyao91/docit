@@ -7,7 +7,7 @@ export default function (context) {
   forEach(serviceList, (buildService, key) => {
     services[key] = buildService({
       ...context,
-      ...services,
+      services,
     });
   });
   return services;

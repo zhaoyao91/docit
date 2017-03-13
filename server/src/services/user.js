@@ -7,7 +7,7 @@ export default function ({models}) {
      * @param email
      * @returns user
      */
-    async createUser({email}) {
+    async createUser(email) {
       const duplicateUser = await User.findOne({email}, {_id: 1});
 
       if (duplicateUser) throw new Error('duplicate user');
@@ -16,5 +16,9 @@ export default function ({models}) {
 
       return newUser.toObject();
     },
+
+    async getUser(userId) {
+      return await User.findOne({_id: userId});
+    }
   };
 }

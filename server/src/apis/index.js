@@ -2,15 +2,30 @@ import Koa from 'koa';
 import koaBody from 'koa-body';
 
 import routerList from './router_list';
-import reportValidationError from '../lib/report_validation_error';
+import reportValidationErrorMiddleware from './middlewares/report_validation_error';
+import authenticateMiddleware from './middlewares/authenticate';
+import forbidUnauthenticatedMiddleware from './middlewares/forbid_unauthenticated';
+import populateUserMiddleware from './middlewares/populate_user';
 
 export default function (context) {
+  const {services} = context;
+
   const apis = new Koa();
 
   apis.use(koaBody());
-  apis.use(reportValidationError);
+  apis.use(reportValidationErrorMiddleware());
 
-  addRouters(apis, routerList, context);
+  // initialize common middlewares for routers to use
+  const middlewares = {
+    authenticate: authenticateMiddleware(services.Auth),
+    forbidUnauthenticated: forbidUnauthenticatedMiddleware(),
+    populateUser: populateUserMiddleware(services.User),
+  };
+
+  addRouters(apis, routerList, {
+    ...context,
+    middlewares,
+  });
 
   return apis;
 }

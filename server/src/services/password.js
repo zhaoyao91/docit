@@ -11,7 +11,7 @@ export default function ({models}) {
      * @param userId
      * @param password
      */
-    async setPassword({userId, password}) {
+    async setPassword(userId, password) {
       const hash = await hashPassword(password);
       const result = await Password.update({userId}, {$set: {hash}}, {upsert: true});
       if (!result.ok) {

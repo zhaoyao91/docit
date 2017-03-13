@@ -26,8 +26,8 @@ export default function ({services}) {
       try {
         const {email, password} = ctx.request.body;
 
-        const user = await UserService.createUser({email});
-        await PasswordService.setPassword({userId: user._id, password});
+        const user = await UserService.createUser(email);
+        await PasswordService.setPassword(user._id, password);
 
         ctx.body = {
           user: pick(user, '_id', 'email')
