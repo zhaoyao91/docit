@@ -1,11 +1,15 @@
 import {Schema} from 'mongoose';
 
 export default new Schema({
-  email: {
+  userId: {
     type: String,
+    required: true,
     index: true,
-    unique: true,
-    sparse: true,
+  },
+
+  hash: {
+    type: String,
+    required: true,
   }
 }, {
   timestamps: true

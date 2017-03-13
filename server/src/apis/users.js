@@ -1,7 +1,9 @@
 import Router from 'koa-router';
+import {pick} from 'lodash';
 
 export default function ({services}) {
-  const {User} = services;
+  const {User: UserService, Password: PasswordService} = services;
+
   const router = new Router();
 
   /**
@@ -16,8 +18,13 @@ export default function ({services}) {
   router.post('/users', async function (ctx) {
     try {
       const {email, password} = ctx.request.body;
-      const user = await User.createUser({email, password});
-      ctx.body = {user};
+
+      const user = await UserService.createUser({email});
+      await PasswordService.setPassword({userId: user._id, password});
+
+      ctx.body = {
+        user: pick(user, '_id', 'email')
+      };
     }
     catch (err) {
       if (err.message === 'duplicate user') {
