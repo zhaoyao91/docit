@@ -1,15 +1,14 @@
-import {camelCase, capitalize, chain} from 'lodash';
+import {forEach} from 'lodash';
 
-import {readModuleMapInDir} from '../utils/file';
-import {allForObject} from '../utils/promise';
+import serviceList from './service_list';
 
-export default async function (context) {
-  const serviceBuilderMap = await readModuleMapInDir(__dirname, false);
-
-  const servicePromises = chain(serviceBuilderMap)
-    .mapKeys((_, key) => capitalize(camelCase(key)))
-    .mapValues((buildService, key) => buildService(context))
-    .value();
-
-  return await allForObject(servicePromises);
+export default function (context) {
+  const services = {};
+  forEach(serviceList, (buildService, key) => {
+    services[key] = buildService({
+      ...context,
+      ...services,
+    });
+  });
+  return services;
 }

@@ -6,8 +6,8 @@ import settings from './settings';
 async function boot() {
   // build server
   const models = await buildModels({settings});
-  const services = await buildServices({models});
-  const apis = await buildAPIs({services});
+  const services = buildServices({models});
+  const apis = buildAPIs({services});
 
   // start server
   const port = 3000;
