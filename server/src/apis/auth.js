@@ -12,8 +12,6 @@ export default function ({services, middlewares}) {
 
   const router = new Router();
 
-  // todo add api to grant auth token
-
   /**
    * grant an auth token by checking email and password
    * @return body.token
@@ -42,6 +40,28 @@ export default function ({services, middlewares}) {
       const token = await AuthService.createToken(user._id);
 
       ctx.body = {token};
+    }
+  );
+
+  /**
+   * refresh auth token
+   * @return body.token
+   */
+  router.post(
+    '/auth/token/refresh',
+    errorStatusMap(),
+    validator({
+      body: object().keys({
+        token: string().required()
+      })
+    }),
+    async function (ctx) {
+      const {token} = ctx.request.body;
+
+      const userId = await AuthService.parseToken(token);
+      const newToken = await AuthService.createToken(userId);
+
+      ctx.body = {token: newToken}
     }
   );
 

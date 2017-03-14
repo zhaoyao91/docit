@@ -33,7 +33,7 @@ export default function ({settings}) {
     /**
      * parse an auth token
      * @param token
-
+     *
      * @returns userId
      *
      * @error {name: 'ServiceError', code: 'TokenExpiredError'}
