@@ -1,0 +1,28 @@
+{
+  "name": "docit-web",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "next -p 4000",
+    "build": "next build",
+    "start": "next start"
+  },
+  "author": "zhaoyao91 <zhaoyao91@163.com>",
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.17.4",
+    "next": "^2.0.0-beta.37",
+    "react": "^15.4.2",
+    "react-addons-css-transition-group": "^15.4.2",
+    "react-addons-transition-group": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "reactstrap": "^4.2.0",
+    "recompose": "^0.22.0",
+    "url-join": "^1.1.0",
+    "validator": "^7.0.0"
+  },
+  "devDependencies": {
+    "babel-plugin-lodash": "^3.2.11",
+    "babel-preset-env": "^1.2.1",
+    "babel-preset-stage-0": "^6.22.0"
+  }
+}

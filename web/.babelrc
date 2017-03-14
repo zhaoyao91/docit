@@ -1,0 +1,10 @@
+{
+  "presets": [
+    "next/babel",
+    "env",
+    "stage-0"
+  ],
+  "plugins": [
+    ["lodash", {"id": ["lodash", "recompose", "reactstrap", "validator"]}]
+  ]
+}
