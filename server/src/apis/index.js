@@ -1,5 +1,6 @@
 import Koa from 'koa';
 import koaBody from 'koa-body';
+import cors from 'kcors';
 
 import routerList from './router_list';
 import handleValidationErrorMiddleware from './middlewares/handle_validation_error';
@@ -15,6 +16,7 @@ export default function (context) {
   const apis = new Koa();
 
   // add global middlewares
+  apis.use(cors());
   apis.use(koaBody());
   apis.use(handleValidationErrorMiddleware());
   apis.use(handleServiceErrorMiddleware());
