@@ -16,7 +16,6 @@ export default function ({settings}) {
     /**
      * create an auth token
      * @param userId
-     *
      * @returns token
      */
     async createToken(userId) {
@@ -34,7 +33,7 @@ export default function ({settings}) {
     /**
      * parse an auth token
      * @param token
-     *
+
      * @returns userId
      *
      * @error {name: 'ServiceError', code: 'TokenExpiredError'}

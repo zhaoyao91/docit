@@ -7,18 +7,10 @@ export default function ({models}) {
     /**
      * create a new user
      * @param email
-     *
      * @returns user
-     *
-     * @error {name: 'ServiceError', code: 'duplicate-user'}
      */
     async createUser(email) {
-      const duplicateUser = await User.findOne({email}, {_id: 1});
-
-      if (duplicateUser) throw new ServiceError('duplicate-user');
-
       const newUser = await User.create({email});
-
       return newUser.toObject();
     },
 
@@ -33,12 +25,22 @@ export default function ({models}) {
     /**
      * check if the user exists
      * @param user
-     *
-     * @error {name: 'ServiceError', code: 'no-user'}
+     * @error {name: 'ServiceError', code: 'user-not-exists'}
      */
     checkUserExists(user) {
       if (!user) {
-        throw new ServiceError('no-user');
+        throw new ServiceError('user-not-exists');
+      }
+    },
+
+    /**
+     * check if the user does not exist
+     * @param user
+     * @error {name: 'ServiceError', code: 'user-already-exists'}
+     */
+    checkUserNotExists(user) {
+      if (user) {
+        throw new ServiceError('user-already-exists')
       }
     }
   };

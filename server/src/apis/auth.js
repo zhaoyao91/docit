@@ -21,7 +21,7 @@ export default function ({services, middlewares}) {
   router.post(
     '/auth/token',
     errorStatusMap(
-      [403, {name: 'ServiceError', code: 'no-user'}],
+      [403, {name: 'ServiceError', code: 'user-not-exists'}],
       [403, {name: 'ServiceError', code: 'no-password'}],
       [403, {name: 'ServiceError', code: 'wrong-password'}],
     ),

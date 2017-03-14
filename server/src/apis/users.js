@@ -16,7 +16,7 @@ export default function ({services, middlewares}) {
   router.post(
     '/users',
     errorStatusMap(
-      [403, {name: 'ServiceError', code: 'duplicate-user'}]
+      [403, {name: 'ServiceError', code: 'user-already-exists'}]
     ),
     validator({
       body: object().keys({
@@ -26,6 +26,11 @@ export default function ({services, middlewares}) {
     }),
     async function (ctx) {
       const {email, password} = ctx.request.body;
+
+      {
+        const user = await UserService.findUserByEmail(email);
+        await UserService.checkUserNotExists(user);
+      }
 
       const user = await UserService.createUser(email);
       await PasswordService.setPassword(user._id, password);
