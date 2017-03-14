@@ -7,7 +7,7 @@ export default function () {
     }
     catch (err) {
       if (err.name === 'ServiceError') {
-        ctx.status = 403;
+        ctx.status = err.status || 403;
         ctx.body = pick(err, 'name', 'code', 'message', 'detail');
       }
       else throw err;

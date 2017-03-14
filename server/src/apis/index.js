@@ -7,12 +7,14 @@ import authenticateMiddleware from './middlewares/authenticate';
 import forbidUnauthenticatedMiddleware from './middlewares/forbid_unauthenticated';
 import populateUserMiddleware from './middlewares/populate_user';
 import handleServiceErrorMiddleware from './middlewares/handle_service_error'
+import errorStatusMapMiddleware from './middlewares/error_status_map';
 
 export default function (context) {
   const {services} = context;
 
   const apis = new Koa();
 
+  // add global middlewares
   apis.use(koaBody());
   apis.use(handleValidationErrorMiddleware());
   apis.use(handleServiceErrorMiddleware());
@@ -22,6 +24,7 @@ export default function (context) {
     authenticate: authenticateMiddleware(services.Auth),
     forbidUnauthenticated: forbidUnauthenticatedMiddleware(),
     populateUser: populateUserMiddleware(services.User),
+    errorStatusMap: errorStatusMapMiddleware
   };
 
   addRouters(apis, routerList, {

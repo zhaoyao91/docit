@@ -7,7 +7,7 @@ export default function () {
     }
     catch (err) {
       if (err.name === 'ValidationError') {
-        ctx.status = 400;
+        ctx.status = err.status || 400;
         ctx.body = pick(err, 'name', 'message');
       }
       else throw err;

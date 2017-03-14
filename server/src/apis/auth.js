@@ -8,23 +8,23 @@ export default function ({services, middlewares}) {
     Password: PasswordService,
   } = services;
 
+  const {errorStatusMap} = middlewares;
+
   const router = new Router();
 
   // todo add api to grant auth token
 
   /**
    * grant an auth token by checking email and password
-   * @param body.email
-   * @param body.password
-   *
    * @return body.token
-   *
-   * @error 403 {name: 'ServiceError', code: 'no-user'}
-   * @error 403 {name: 'ServiceError', code: 'no-password'}
-   * @error 403 {name: 'ServiceError', code: 'wrong-password'}
    */
   router.post(
     '/auth/token',
+    errorStatusMap(
+      [403, {name: 'ServiceError', code: 'no-user'}],
+      [403, {name: 'ServiceError', code: 'no-password'}],
+      [403, {name: 'ServiceError', code: 'wrong-password'}],
+    ),
     validator({
       body: object().keys({
         email: string().email().required(),
