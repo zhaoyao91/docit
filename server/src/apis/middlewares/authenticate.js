@@ -12,7 +12,7 @@ export default function (AuthService) {
         }
         catch (err) {
           // if the token is invalid, just treat the user as unauthenticated and do not block the subsequent process
-          if (err.name === 'TokenExpiredError' || err.name === 'JsonWebTokenError') {
+          if (err.name === 'ServiceError' && (err.code === 'TokenExpiredError' || err.code === 'JsonWebTokenError')) {
             console.warn('failed to parse auth token', {
               name: err.name,
               message: err.message,
