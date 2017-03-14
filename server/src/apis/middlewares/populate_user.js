@@ -5,7 +5,7 @@ export default function (UserService) {
     const userId = get(ctx.state.user, '_id');
 
     if (userId) {
-      const user = await UserService.getUser(userId);
+      const user = await UserService.findUser(userId);
       if (user) {
         ctx.state.user = user;
       }

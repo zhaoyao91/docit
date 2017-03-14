@@ -1,14 +1,14 @@
+import {pick} from 'lodash';
+
 export default function () {
-  return async function (ctx, next) {
+  return async function handleValidationError(ctx, next) {
     try {
       await next();
     }
     catch (err) {
       if (err.name === 'ValidationError') {
         ctx.status = 400;
-        ctx.body = {
-          error: err.message
-        }
+        ctx.body = pick(err, 'name', 'message');
       }
       else throw err;
     }

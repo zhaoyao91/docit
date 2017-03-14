@@ -5,6 +5,8 @@
 
 import jwt from 'jsonwebtoken';
 
+import wrapError from './lib/wrap_errro';
+
 const algorithm = 'HS256';
 
 export default function ({settings}) {
@@ -14,6 +16,7 @@ export default function ({settings}) {
     /**
      * create an auth token
      * @param userId
+     *
      * @returns token
      */
     async createToken(userId) {
@@ -31,8 +34,11 @@ export default function ({settings}) {
     /**
      * parse an auth token
      * @param token
+     *
      * @returns userId
-     * @error see https://github.com/auth0/node-jsonwebtoken#errors--codes
+     *
+     * @error {name: 'ServiceError', code: 'TokenExpiredError'}
+     * @error {name: 'ServiceError', code: 'JsonWebTokenError'}
      */
     async parseToken(token) {
       return await new Promise((resolve, reject) => {
@@ -40,7 +46,15 @@ export default function ({settings}) {
           algorithms: [algorithm],
           maxAge: validDuration,
         }, (err, payload) => {
-          if (err) reject(err);
+          if (err) {
+            if (err.name === 'TokenExpiredError') {
+              err = wrapError(err, 'expiredAt');
+            }
+            else if (err.name === 'JsonWebTokenError') {
+              err = wrapError(err);
+            }
+            reject(err);
+          }
           else resolve(payload.userId);
         })
       })

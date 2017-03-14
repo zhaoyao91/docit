@@ -1,5 +1,7 @@
 import bcrypt from 'bcryptjs';
 
+import ServiceError from './lib/service_error';
+
 const saltLength = 10;
 
 export default function ({models}) {
@@ -15,7 +17,26 @@ export default function ({models}) {
       const hash = await hashPassword(password);
       const result = await Password.update({userId}, {$set: {hash}}, {upsert: true});
       if (!result.ok) {
-        throw new Error(`failed to set password for user ${userId}`);
+        console.warn('failed to set password');
+      }
+    },
+
+    /**
+     * check if the password of specified user is right
+     * @param userId
+     * @param password
+     *
+     * @error {name: 'ServiceError', code: 'no-password'}
+     * @error {name: 'ServiceError', code: 'wrong-password'}
+     */
+    async checkPassword(userId, password) {
+      const passwordData = await Password.findOne({userId});
+      if (!passwordData) {
+        throw new ServiceError('no-password', 'this user does not have any password set yet');
+      }
+      const matched = await comparePassword(password, passwordData.hash);
+      if (!matched) {
+        throw new ServiceError('wrong-password');
       }
     }
   };

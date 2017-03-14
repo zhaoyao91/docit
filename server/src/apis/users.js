@@ -9,10 +9,12 @@ export default function ({services}) {
 
   /**
    * create a new user with email and password
-   * @param email
-   * @param password
-   * @return user - {_id, email}
-   * @error {status: 403, error: 'duplicate user'}
+   * @param body.email
+   * @param body.password
+   *
+   * @return body.user - {_id, email}
+   *
+   * @error 403 {name: 'ServiceError', code: 'duplicate-user'}
    */
   router.post(
     '/users',
