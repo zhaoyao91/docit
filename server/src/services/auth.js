@@ -36,8 +36,8 @@ export default function ({settings}) {
      *
      * @returns userId
      *
-     * @error {name: 'ServiceError', code: 'TokenExpiredError'}
-     * @error {name: 'ServiceError', code: 'JsonWebTokenError'}
+     * @error {name: 'ServiceError', code: 'token-expired'}
+     * @error {name: 'ServiceError', code: 'invalid-token'}
      */
     async parseToken(token) {
       return await new Promise((resolve, reject) => {
@@ -47,10 +47,10 @@ export default function ({settings}) {
         }, (err, payload) => {
           if (err) {
             if (err.name === 'TokenExpiredError') {
-              err = wrapError(err, 'expiredAt');
+              err = wrapError(err, 'token-expired', ['expiredAt']);
             }
             else if (err.name === 'JsonWebTokenError') {
-              err = wrapError(err);
+              err = wrapError(err, 'invalid-token');
             }
             reject(err);
           }

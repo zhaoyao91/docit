@@ -18,17 +18,17 @@ export default function ({services, middlewares}) {
    */
   router.post(
     '/auth/token',
-    errorStatusMap(
-      [403, {name: 'ServiceError', code: 'user-not-exists'}],
-      [403, {name: 'ServiceError', code: 'no-password'}],
-      [403, {name: 'ServiceError', code: 'wrong-password'}],
-    ),
     validator({
       body: object().keys({
         email: string().email().required(),
         password: string().required(),
       })
     }),
+    errorStatusMap(
+      [403, {name: 'ServiceError', code: 'user-not-exists'}],
+      [403, {name: 'ServiceError', code: 'no-password'}],
+      [403, {name: 'ServiceError', code: 'wrong-password'}],
+    ),
     async function (ctx) {
       const {email, password} = ctx.request.body;
 
@@ -49,12 +49,15 @@ export default function ({services, middlewares}) {
    */
   router.post(
     '/auth/token/refresh',
-    errorStatusMap(),
     validator({
       body: object().keys({
         token: string().required()
       })
     }),
+    errorStatusMap(
+      [403, {name: 'ServiceError', code: 'token-expired'}],
+      [403, {name: 'ServiceError', code: 'invalid-token'}],
+    ),
     async function (ctx) {
       const {token} = ctx.request.body;
 

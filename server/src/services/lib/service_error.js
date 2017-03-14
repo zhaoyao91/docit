@@ -2,8 +2,8 @@ export default class ServiceError extends Error {
   constructor(code, message, detail) {
     super();
     this.name = 'ServiceError';
-    this.code = code;
-    this.message = message;
-    this.detail = detail;
+    if (code !== undefined) this.code = code;
+    if (message !== undefined) this.message = message;
+    if (detail !== undefined) this.detail = detail;
   }
 }

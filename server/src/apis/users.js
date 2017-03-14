@@ -15,15 +15,15 @@ export default function ({services, middlewares}) {
    */
   router.post(
     '/users',
-    errorStatusMap(
-      [403, {name: 'ServiceError', code: 'user-already-exists'}]
-    ),
     validator({
       body: object().keys({
         email: string().email().required(),
         password: string().required(),
       })
     }),
+    errorStatusMap(
+      [403, {name: 'ServiceError', code: 'user-already-exists'}]
+    ),
     async function (ctx) {
       const {email, password} = ctx.request.body;
 

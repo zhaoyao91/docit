@@ -15,6 +15,9 @@ export default function (...statusMaps) {
         const [status, pattern] = matchedMap;
         err.status = err.status || status;
       }
+      else {
+        console.warn('some error was thrown without any status mapping', err);
+      }
       throw err;
     }
   }
