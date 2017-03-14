@@ -5,6 +5,7 @@
     "stage-0"
   ],
   "plugins": [
+    ["transform-define", "./env-config.js"],
     ["lodash", {"id": ["lodash", "recompose", "reactstrap", "validator"]}]
   ]
 }
