@@ -41,6 +41,3 @@ export default buildSingletonModule(async function () {
     ReactDOM.render(<App/>, container);
   }
 });
-
-
-

@@ -4,3 +4,5 @@
  - it seems that we can use bundle-loader to build a fully progressive lazy loading app, but how to reduce the boilerplate?
 
 - make a function to make easy customizing vendors
+
+- how to prefetch page?

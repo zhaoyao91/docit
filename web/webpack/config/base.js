@@ -5,8 +5,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = function () {
   return {
     entry: {
-      main: ['babel-polyfill', './src/index.js'],
-      lib: ['./src/core.js']
+      main: ['./src/index.js'],
+      core: ['./src/core.js'],
+      babel: ['babel-polyfill']
     },
 
     output: {
@@ -25,7 +26,7 @@ module.exports = function () {
 
     plugins: [
       new webpack.optimize.CommonsChunkPlugin({
-        names: ['lib', 'main', 'manifest'],
+        names: ['main', 'core', 'babel', 'manifest'],
       }),
       new HtmlWebpackPlugin()
     ],
