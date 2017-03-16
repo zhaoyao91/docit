@@ -5,7 +5,7 @@ function component() {
   const element = document.createElement('div');
 
   /* lodash is required for the next line to work */
-  element.innerHTML = _.join(['!Hello', 'webpack', moment()], ' ');
+  element.innerHTML = _.join(['Hello', 'webpack', moment()], ' ');
 
   return element;
 }

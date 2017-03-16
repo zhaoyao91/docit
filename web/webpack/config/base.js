@@ -19,9 +19,7 @@ module.exports = function () {
     },
 
     plugins: [
-      new HtmlWebpackPlugin({
-        title: 'Doc It'
-      })
+      new HtmlWebpackPlugin()
     ],
 
     devtool: 'cheap-module-source-map'
