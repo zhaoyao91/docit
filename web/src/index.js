@@ -1,3 +1,3 @@
-import App, {mountApp} from './app';
+import App, { mountApp } from './app'
 
-mountApp(App);
+mountApp(App)

@@ -1,6 +1,6 @@
-const webpack = require('webpack');
-const webpackMerge = require('webpack-merge');
-const baseConfig = require('./base.js');
+const webpack = require('webpack')
+const webpackMerge = require('webpack-merge')
+const baseConfig = require('./base.js')
 
 module.exports = function (env) {
   const config = {
@@ -20,7 +20,7 @@ module.exports = function (env) {
       }),
       new webpack.HashedModuleIdsPlugin()
     ],
-  };
+  }
 
-  return webpackMerge(baseConfig(env), config);
-};
+  return webpackMerge(baseConfig(env), config)
+}

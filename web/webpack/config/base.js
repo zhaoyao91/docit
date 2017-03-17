@@ -1,6 +1,6 @@
-const webpack = require('webpack');
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack')
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = function () {
   return {
@@ -24,9 +24,9 @@ module.exports = function () {
 
     plugins: [
       new webpack.optimize.CommonsChunkPlugin({
-        name: "vendor",
+        name: 'vendor',
         minChunks: function (module) {
-          return module.context && module.context.indexOf("node_modules") !== -1;
+          return module.context && module.context.indexOf('node_modules') !== -1
         }
       }),
       new webpack.optimize.CommonsChunkPlugin({
@@ -37,5 +37,5 @@ module.exports = function () {
     ],
 
     devtool: 'cheap-module-source-map'
-  };
-};
+  }
+}

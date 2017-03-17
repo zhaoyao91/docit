@@ -1,5 +1,5 @@
 import React from 'react'
-import Hello from '../views/hello';
+import Hello from '../views/hello'
 
 export default () => (
   <div>

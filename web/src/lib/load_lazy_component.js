@@ -1,28 +1,28 @@
-import React from 'react';
+import React from 'react'
 
 const DefaultLoading = () => (
   <div>Loading...</div>
-);
+)
 
-export default function loadLazyComponent(load, loading = () => <DefaultLoading/>) {
+export default function loadLazyComponent (load, loading = () => <DefaultLoading/>) {
   class LazyLoad extends React.Component {
     state = {
       mod: null
-    };
+    }
 
-    componentWillMount() {
+    componentWillMount () {
       load(mod => {
         this.setState({
           mod: mod.default ? mod.default : mod
         })
-      });
+      })
     }
 
-    render() {
-      const {mod: Mod} = this.state;
-      return Mod ? <Mod {...this.props}/> : loading();
+    render () {
+      const {mod: Mod} = this.state
+      return Mod ? <Mod {...this.props}/> : loading()
     }
   }
 
-  return LazyLoad;
+  return LazyLoad
 }
