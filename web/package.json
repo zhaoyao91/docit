@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "scripts": {
     "clean-dist": "del-cli dist",
-    "start": "webpack-dev-server --env=dev --config webpack/webpack.config.js --open",
-    "build:dev": "webpack --env=dev --config webpack/webpack.config.js --colors",
-    "build:prod": "webpack --env=prod --config webpack/webpack.config.js --colors"
+    "start": "webpack-dev-server --env=dev --config webpack.config/webpack.config.js --open",
+    "build:dev": "webpack --env=dev --config webpack.config/webpack.config.js --colors",
+    "build:prod": "webpack --env=prod --config webpack.config/webpack.config.js --colors"
   },
   "author": "zhaoyao91 <zhaoyao91@163.com>",
   "devDependencies": {
