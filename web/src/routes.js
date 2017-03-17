@@ -4,12 +4,14 @@ import {
   Route,
 } from 'react-router-dom'
 
-import Page1 from './pages/page1'
+import IndexPage from './pages/index'
+import SignupPage from './pages/signup'
 
 export default () => (
   <Router>
     <div>
-      <Route path="/page1" component={Page1}/>
+      <Route exact path="/" component={IndexPage}/>
+      <Route exact path="/signup" component={SignupPage}/>
     </div>
   </Router>
 )
