@@ -1,7 +1,3 @@
-import {buildSingletonModule, loadModule, loadAppModule} from '../core';
-
-export default buildSingletonModule(async function() {
-  return [
-    ['/page1', require('bundle-loader?lazy!./page1')],
-  ];
-})
+export default [
+  ['/page1', require('bundle-loader?lazy&name=[name]!./page1')]
+]

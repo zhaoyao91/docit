@@ -1,43 +1,34 @@
-import {buildSingletonModule, loadModule, loadAppModule} from './core';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
 
-export default buildSingletonModule(async function () {
-  const [
-    ReactRouterDOM,
-    ReactDOM,
-    React,
-    loadLazyComponent,
-    pages
-  ] = await Promise.all([
-    loadModule(require('bundle-loader!react-router-dom')),
-    loadModule(require('bundle-loader!react-dom')),
-    loadModule(require('bundle-loader!react')),
-    loadAppModule(require('bundle-loader!./lib/load_lazy_component')),
-    loadAppModule(require('bundle-loader!./pages'))
-  ]);
+import loadLazyComponent from './lib/load_lazy_component';
+import pages from './pages';
 
-  const {BrowserRouter: Router, Route, Link} = ReactRouterDOM;
+export default () => (
+  <Router>
+    <div>
+      <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/page1">Page 1</Link></li>
+      </ul>
 
-  const App = () => (
-    <Router>
-      <div>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/page1">Page 1</Link></li>
-        </ul>
+      {
+        pages.map(([path, load]) => {
+          return <Route key={path} path={path} component={loadLazyComponent(load)}/>
+        })
+      }
+    </div>
+  </Router>
+);
 
-        {
-          pages.map(([path, load]) => {
-            return <Route key={path} path={path} component={loadLazyComponent(load)}/>
-          })
-        }
-      </div>
-    </Router>
-  );
-
-  return function mountApp() {
-    const container = document.createElement('div');
-    container.dataset.reactcontainer = "";
-    document.body.appendChild(container);
-    ReactDOM.render(<App/>, container);
-  }
-});
+export function mountApp(App) {
+  const container = document.createElement('div');
+  container.dataset.reactcontainer = "";
+  document.body.appendChild(container);
+  ReactDOM.render(<App/>, container);
+}

@@ -1,3 +1,3 @@
-import {loadAppModule} from './core';
+import App, {mountApp} from './app';
 
-loadAppModule(require('bundle-loader!./app')).then(mountApp => mountApp());
+mountApp(App);

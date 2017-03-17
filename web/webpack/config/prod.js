@@ -17,7 +17,8 @@ module.exports = function (env) {
       new webpack.optimize.UglifyJsPlugin({
         comments: false,
         sourceMap: true,
-      })
+      }),
+      new webpack.HashedModuleIdsPlugin()
     ],
   };
 

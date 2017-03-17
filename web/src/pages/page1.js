@@ -1,18 +1,9 @@
-import {buildSingletonModule, loadModule, loadAppModule} from '../core';
+import React from 'react'
+import Hello from '../views/hello';
 
-export default buildSingletonModule(async function () {
-  const [
-    React,
-    Hello,
-  ] = await Promise.all([
-    loadModule(require('bundle-loader!react')),
-    loadAppModule(require('bundle-loader!../views/hello')),
-  ]);
-
-  return () => (
-    <div>
-      <h1>Page 1</h1>
-      <Hello/>
-    </div>
-  );
-});
+export default () => (
+  <div>
+    <h1>Page 1</h1>
+    <Hello/>
+  </div>
+)

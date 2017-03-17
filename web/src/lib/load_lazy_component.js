@@ -1,36 +1,28 @@
-import {buildSingletonModule, loadModule, loadAppModule} from '../core';
+import React from 'react';
 
-export default buildSingletonModule(async function () {
-  const [
-    React
-  ] = await Promise.all([
-    loadModule(require('bundle-loader!react'))
-  ]);
+const DefaultLoading = () => (
+  <div>Loading...</div>
+);
 
-  const DefaultLoading = () => (
-    <div>Loading...</div>
-  );
+export default function loadLazyComponent(load, loading = () => <DefaultLoading/>) {
+  class LazyLoad extends React.Component {
+    state = {
+      mod: null
+    };
 
-  return function loadLazyComponent(load, loading = () => <DefaultLoading/>) {
-    class LazyLoad extends React.Component {
-      state = {
-        mod: null
-      };
-
-      componentWillMount() {
-        loadAppModule(load).then(mod => {
-          this.setState({
-            mod: mod.default ? mod.default : mod
-          })
-        });
-      }
-
-      render() {
-        const {mod: Mod} = this.state;
-        return Mod ? <Mod {...this.props}/> : loading();
-      }
+    componentWillMount() {
+      load(mod => {
+        this.setState({
+          mod: mod.default ? mod.default : mod
+        })
+      });
     }
 
-    return LazyLoad;
+    render() {
+      const {mod: Mod} = this.state;
+      return Mod ? <Mod {...this.props}/> : loading();
+    }
   }
-})
+
+  return LazyLoad;
+}
