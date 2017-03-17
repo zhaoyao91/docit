@@ -1,4 +1,7 @@
+## 策略
+- 分片构建，延迟加载每个页面
+- 一般情况下，每个页面包含自己的所有依赖
+- 指定vendors和commons两个表，将非常通用的包应用文件指定为公共分块
+
 ## todo
-- load pages on demand
-- build a single bundle
-- split very common chunks into vendor, remain others in pages
+- page preload

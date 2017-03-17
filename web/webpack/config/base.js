@@ -1,14 +1,14 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WebpackChunkHash = require("webpack-chunk-hash");
+const _ = require('lodash');
+const commonChunks = require('../common_chunks');
 
 module.exports = function () {
   return {
-    entry: {
+    entry: _.assign({
       main: './src/index.js',
-      vendor: 'moment',
-    },
+    }, commonChunks),
 
     output: {
       path: path.resolve(process.cwd(), 'dist'),
@@ -26,10 +26,13 @@ module.exports = function () {
 
     plugins: [
       new webpack.optimize.CommonsChunkPlugin({
-        names: ['vendor', 'manifest'],
+        names: _.keys(commonChunks),
         minChunks: Infinity,
       }),
-      new WebpackChunkHash(),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'manifest',
+        minChunks: Infinity,
+      }),
       new HtmlWebpackPlugin(),
     ],
 
