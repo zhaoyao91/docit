@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
-import { Container, Form, Button, Message } from 'semantic-ui-react'
-import { setPropTypes, withHandlers, withState } from 'recompose'
-import { compose, get } from 'lodash/fp'
+import { Container, Form, Button } from 'semantic-ui-react'
+import { setPropTypes } from 'recompose'
+import { compose } from 'lodash/fp'
 
-import { withSimpleInputState } from '../lib/hocs'
+import { withSimpleInputState, withFormSubmitHandlers } from '../lib/hocs'
 
 /**
  * responsibility: let user signup
@@ -21,31 +21,26 @@ export default () => (
 /**
  * responsibility: gather user data
  */
-const SignupForm = do {
-  compose(
-    setPropTypes({
-      // func({email, password})
-      onSubmit: PropTypes.func.isRequired,
-    }),
-    withSimpleInputState('email', ''),
-    withSimpleInputState('password', ''),
-    withHandlers({
-      onSubmit: ({onSubmit, email, password}) => e => {
-        e.preventDefault()
-        onSubmit(email, password)
-      }
-    })
-  )(({onSubmit, email, password, onEmailChange, onPasswordChange}) => (
-    <Form onSubmit={onSubmit}>
-      <Form.Field>
-        <label>Email</label>
-        <input placeholder='Email' value={email} onChange={onEmailChange}/>
-      </Form.Field>
-      <Form.Field>
-        <label>Password</label>
-        <input type="password" placeholder='Password' value={password} onChange={onPasswordChange}/>
-      </Form.Field>
-      <Button primary type='submit'>Signup</Button>
-    </Form>
-  ))
-}
+const SignupForm = compose(
+  setPropTypes({
+    // func({email, password})
+    onSubmit: PropTypes.func.isRequired,
+  }),
+  withSimpleInputState('email', ''),
+  withSimpleInputState('password', ''),
+  withFormSubmitHandlers({
+    onSubmit: ({onSubmit, email, password}) => onSubmit({email, password})
+  }),
+)(({onSubmit, email, password, onEmailChange, onPasswordChange}) => (
+  <Form onSubmit={onSubmit}>
+    <Form.Field>
+      <label>Email</label>
+      <input placeholder='Email' value={email} onChange={onEmailChange}/>
+    </Form.Field>
+    <Form.Field>
+      <label>Password</label>
+      <input type="password" placeholder='Password' value={password} onChange={onPasswordChange}/>
+    </Form.Field>
+    <Button primary type='submit'>Signup</Button>
+  </Form>
+))

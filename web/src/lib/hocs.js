@@ -1,4 +1,4 @@
-import { compose, get, cond, isFunction, isString, identity, camelCase } from 'lodash/fp'
+import { compose, get, cond, isFunction, isString, identity, camelCase, mapValues } from 'lodash/fp'
 import { withState, withHandlers } from 'recompose'
 
 /**
@@ -38,4 +38,15 @@ export const withInputState = (stateName, updaterName, initialValue, handlerName
  */
 export const withSimpleInputState = (stateName, initialValue, getValueFromEvent) => (
   withInputState(stateName, camelCase(`set ${stateName}`), initialValue, camelCase(`on ${stateName} change`), getValueFromEvent)
+)
+
+/**
+ * compose with form submit handlers which do not need to handle e.preventDefault()
+ * @param handlers: {(handlerName, handler(props))}
+ */
+export const withFormSubmitHandlers = (handlers) => (
+  withHandlers(mapValues(handler => props => e => {
+    e.preventDefault()
+    return handler(props)
+  })(handlers))
 )
