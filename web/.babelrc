@@ -10,6 +10,17 @@
     "react"
   ],
   "plugins": [
-    "syntax-dynamic-import"
+    "syntax-dynamic-import",
+    [
+      "lodash",
+      {
+        "id": [
+          "lodash",
+          "react-router-dom",
+          "recompose",
+          "semantic-ui-react"
+        ]
+      }
+    ]
   ]
 }
