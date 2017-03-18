@@ -6,7 +6,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = function () {
   return {
     entry: {
-      main: './src/index.js',
+      main: ['whatwg-fetch', './src/index.js'],
     },
 
     output: {

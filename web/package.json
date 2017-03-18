@@ -36,6 +36,7 @@
     "react-router-dom": "^4.0.0",
     "recompose": "^0.22.0",
     "semantic-ui-css": "^2.2.9",
-    "semantic-ui-react": "^0.67.1"
+    "semantic-ui-react": "^0.67.1",
+    "whatwg-fetch": "^2.0.3"
   }
 }
