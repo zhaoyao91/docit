@@ -3,7 +3,7 @@ import { Container, Form, Button } from 'semantic-ui-react'
 import { setPropTypes } from 'recompose'
 import { compose } from 'lodash/fp'
 
-import { withSimpleInputState, withFormSubmitHandlers } from '../lib/hocs'
+import { withSimpleInputState, withFormSubmitHandlers } from '../../lib/hocs'
 
 /**
  * responsibility: let user signup
