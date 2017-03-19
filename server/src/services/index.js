@@ -1,4 +1,5 @@
 export default [
-  'Password',
   'Auth',
+  'Password',
+  'Users',
 ]

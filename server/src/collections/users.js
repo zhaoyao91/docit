@@ -3,7 +3,6 @@ const schema = {
 
   password: {
     hash: String,
-    algorithm: String,
-    round: Number
+    encryptOptions: Object
   }
 }

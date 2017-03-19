@@ -1,27 +1,21 @@
 import IDScalar from './id'
 import DateScalar from './date'
 
-export default function ({collections, services}) {
-  const {Users} = collections
+export default function ({services}) {
+  const {Users: UsersService} = services
 
   return {
     Query: {
-      findUserById(obj, args, ctx, info) {
-        // todo
+      async findUserById(obj, args, ctx, info) {
+        const {id} = args
+        return await UsersService.findUserById(id)
       }
     },
 
     Mutation: {
       async createUser(obj, args, ctx, info) {
         const {email, password} = args
-        const user = {
-          email,
-          password,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        }
-        await Users.insertOne(user)
-        return user
+        return await UsersService.createUser(email, password)
       }
     },
 
