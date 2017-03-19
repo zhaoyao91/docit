@@ -2,8 +2,8 @@ import fs from 'fs'
 import path from 'path'
 import { compose, mapKeys, mapValues, camelCase, upperFirst, curry } from 'lodash/fp'
 
-export default async (mongodb, collectionsDir) => {
-  const filenames = await readFilenamesInDir(collectionsDir)
+export default async ({mongodb}) => {
+  const filenames = await readFilenamesInDir(path.resolve(__dirname, '../collections'))
   return compose(
     mapValues(compose(
       createCollection(mongodb),
