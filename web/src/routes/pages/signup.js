@@ -33,9 +33,18 @@ export default compose(
     submitting: submitStatus === 'loading',
     successMessage: submitStatus === 'success' ? 'Succeeded to signup' : undefined,
     errorMessage: do {
-      if (submitStatus !== 'failed') { null }
-      else if (!submitError) { 'Failed to signup' }
-      else { submitError.message }
+      if (submitStatus !== 'failed') {
+        null
+      }
+      else if (!submitError) {
+        'Failed to signup'
+      }
+      else if (submitError.message === 'GraphQL error: Users.duplicate-user') {
+        'This email has already been taken'
+      }
+      else {
+        'Failed to signup'
+      }
     }
   })),
 )(({onSubmit, submitting, successMessage, errorMessage}) => (
