@@ -15,6 +15,12 @@ module.exports = function () {
       chunkFilename: '[chunkhash].[name].js',
     },
 
+    resolve: {
+      alias: {
+        joi: 'joi-browser'
+      }
+    },
+
     module: {
       rules: [
         {

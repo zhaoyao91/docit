@@ -1,6 +1,8 @@
 import { compose, get, cond, isFunction, isString, identity, camelCase, mapValues } from 'lodash/fp'
 import { withState, withHandlers } from 'recompose'
 
+import { proxyBefore } from './function_utils'
+
 /**
  * @param handlerName
  * @param getUpdaterFromProps
@@ -41,12 +43,11 @@ export const withSimpleInputState = (stateName, initialValue, getValueFromEvent)
 )
 
 /**
- * compose with form submit handlers which do not need to handle e.preventDefault()
- * @param handlers: {(handlerName, handler(props))}
+ * ensure a form submit handler to call e.preventDefault()
+ * @param handlerName
  */
-export const withFormSubmitHandlers = (handlers) => (
-  withHandlers(mapValues(handler => props => e => {
-    e.preventDefault()
-    return handler(props)
-  })(handlers))
+export const makeFormSubmitHandler = (handlerName) => (
+  withHandlers({
+    [handlerName]: props => proxyBefore(({args: [e]}) => e.preventDefault())(props[handlerName])
+  })
 )

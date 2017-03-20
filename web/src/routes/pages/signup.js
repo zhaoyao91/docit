@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react'
 import { Container, Form, Button, Message } from 'semantic-ui-react'
 import { withProps, setPropTypes, withHandlers, withState } from 'recompose'
-import { compose } from 'lodash/fp'
+import { compose, assoc, partial } from 'lodash/fp'
 import { gql, graphql } from 'react-apollo'
+import joi from 'joi'
 
-import { withSimpleInputState, withFormSubmitHandlers } from '../../lib/hocs'
+import { withSimpleInputState, makeFormSubmitHandler } from '../../lib/hocs'
+import { proxyBefore, effectiveIf } from '../../lib/function_utils'
 
 export default compose(
   graphql(gql`
@@ -59,20 +61,49 @@ const SignupForm = compose(
     successMessage: PropTypes.string,
     errorMessage: PropTypes.string,
   }),
+
+  // about form fields
   withSimpleInputState('email', ''),
   withSimpleInputState('password', ''),
-  withFormSubmitHandlers({
-    onSubmit: ({onSubmit, email, password}) => onSubmit({email, password})
+  withHandlers({
+    onSubmit: ({onSubmit, email, password}) => e => onSubmit({email, password})
   }),
-)(({onSubmit, email, password, onEmailChange, onPasswordChange, loading, successMessage, errorMessage}) => (
+
+  // about form validations
+  withProps(({email, password}) => ({
+    invalidEmail: !!joi.validate({email}, {email: joi.string().email().required()}).error,
+    invalidPassword: !!joi.validate({password}, {password: joi.string().required()}).error,
+  })),
+  withHandlers({
+    onSubmit: ({onSubmit, invalidEmail, invalidPassword}) => effectiveIf(() => !invalidEmail && !invalidPassword)(onSubmit)
+  }),
+
+  // about form dirties
+  withState('dirties', 'setDirties', {form: false, email: false, password: false}),
+  withHandlers({
+    onEmailChange: ({setDirties, onEmailChange}) => proxyBefore(() => setDirties(assoc('email', true)))(onEmailChange),
+    onPasswordChange: ({setDirties, onPasswordChange}) => proxyBefore(() => setDirties(assoc('password', true)))(onPasswordChange),
+    onSubmit: ({setDirties, onSubmit}) => proxyBefore(() => setDirties(assoc('form', true)))(onSubmit)
+  }),
+
+  // about form errors
+  withProps(({invalidEmail, invalidPassword, dirties}) => ({
+    emailErrorMessage: invalidEmail && (dirties.form || dirties.email) ? 'Email is invalid' : null,
+    passwordErrorMessage: invalidPassword && (dirties.form || dirties.password) ? 'Password cannot be empty' : null
+  })),
+
+  makeFormSubmitHandler('onSubmit'),
+)(({onSubmit, email, password, onEmailChange, onPasswordChange, loading, successMessage, errorMessage, emailErrorMessage, passwordErrorMessage}) => (
   <Form onSubmit={onSubmit} loading={loading}>
     <Form.Field>
       <label>Email</label>
       <input placeholder='Email' value={email} onChange={onEmailChange}/>
+      <Message error content={emailErrorMessage} visible={!!emailErrorMessage}/>
     </Form.Field>
     <Form.Field>
       <label>Password</label>
       <input type="password" placeholder='Password' value={password} onChange={onPasswordChange}/>
+      <Message error content={passwordErrorMessage} visible={!!passwordErrorMessage}/>
     </Form.Field>
     <Message content={successMessage} success visible={!!successMessage}/>
     <Message content={errorMessage} error visible={!!errorMessage}/>
