@@ -35,14 +35,11 @@ export default compose(
     errorMessage: do {
       if (submitStatus !== 'failed') {
         null
-      }
-      else if (!submitError) {
+      } else if (!submitError) {
         'Failed to signup'
-      }
-      else if (submitError.message === 'GraphQL error: Users.duplicate-user') {
+      } else if (submitError.message === 'GraphQL error: Users.duplicate-user') {
         'This email has already been taken'
-      }
-      else {
+      } else {
         'Failed to signup'
       }
     }

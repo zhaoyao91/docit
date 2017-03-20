@@ -1,10 +1,15 @@
 export class AppError extends Error {
   constructor (code, description, detail) {
     const message = do {
-      if (code && description) {`${code}: ${description}`}
-      else if (code) {code}
-      else if (description) {description}
-      else {undefined}
+      if (code && description) {
+        `${code}: ${description}`
+      } else if (code) {
+        code
+      } else if (description) {
+        description
+      } else {
+        undefined
+      }
     }
     super(message)
     this.name = 'AppError'
