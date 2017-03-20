@@ -1,3 +1,6 @@
+import joi from 'joi'
+
+import validateArgs from '../../lib/validate_args'
 import IDScalar from './scarlars/id'
 import DateScalar from './scarlars/date'
 
@@ -14,6 +17,10 @@ export default function ({services}) {
 
     Mutation: {
       async createUser(obj, args, ctx, info) {
+        validateArgs(args, {
+          email: joi.string().email().required(),
+          password: joi.string().required(),
+        })
         const {email, password} = args
         return await UsersService.createUser(email, password)
       }

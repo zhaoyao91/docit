@@ -1,5 +1,5 @@
 export class AppError extends Error {
-  constructor (code, description, detail) {
+  constructor (code, description, details) {
     const message = do {
       if (code && description) {
         `${code}: ${description}`
@@ -15,7 +15,7 @@ export class AppError extends Error {
     this.name = 'AppError'
     this.code = code
     this.description = description
-    this.detail = detail
+    this.details = details
   }
 }
 
@@ -40,9 +40,9 @@ export class APILogicError extends APIError {
   }
 }
 
-export class APIParamsError extends APIError {
+export class APIArgsError extends APIError {
   constructor (code, description, detail) {
     super(code, description, detail)
-    this.name = 'APIParamsError'
+    this.name = 'APIArgsError'
   }
 }
