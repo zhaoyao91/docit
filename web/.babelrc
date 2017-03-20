@@ -16,7 +16,6 @@
       {
         "id": [
           "lodash",
-          "react-router-dom",
           "recompose",
           "semantic-ui-react"
         ]
