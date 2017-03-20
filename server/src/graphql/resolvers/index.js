@@ -1,5 +1,5 @@
-import IDScalar from './id'
-import DateScalar from './date'
+import IDScalar from './scarlars/id'
+import DateScalar from './scarlars/date'
 
 export default function ({services}) {
   const {Users: UsersService} = services

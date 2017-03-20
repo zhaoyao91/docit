@@ -1,5 +1,7 @@
 import { ObjectId } from 'mongodb'
 
+import { ServiceError } from '../lib/errors'
+
 export default function ({collections, services}) {
   const {Users} = collections
   const {Password: PasswordService} = services
@@ -10,7 +12,7 @@ export default function ({collections, services}) {
       {
         const user = await Users.findOne({email})
         if (user) {
-          throw new Error('duplicate user')
+          throw new ServiceError('Users.duplicate-user')
         }
       }
 
